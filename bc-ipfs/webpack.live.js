@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ConfigWebpackPlugin = require('config-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
     ],
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})],
+    minimizer: ['...', new CssMinimizerPlugin()],
   },
   plugins: [
     new NodePolyfillPlugin(),
