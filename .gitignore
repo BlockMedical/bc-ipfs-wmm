@@ -34,6 +34,10 @@ build/Release
 
 # Dependency directories
 node_modules/
+bc-ipfs/public/index.html
+bc-ipfs/public/main.css
+bc-ipfs/public/main.js
+bc-ipfs/public/main.js.LICENSE.txt
 jspm_packages/
 
 # TypeScript v1 declaration files
