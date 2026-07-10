@@ -2,10 +2,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const ConfigWebpackPlugin = require('config-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const appConfig = require('./config/production.json');
 
 module.exports = {
   mode: 'production',
@@ -36,6 +36,7 @@ module.exports = {
   },
   plugins: [
     new NodePolyfillPlugin(),
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(appConfig) }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
@@ -48,6 +49,5 @@ module.exports = {
       filename: './index.html',
       inject: 'body',
     }),
-    new ConfigWebpackPlugin(),
   ],
 };
