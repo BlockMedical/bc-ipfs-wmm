@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ConfigWebpackPlugin = require('config-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -27,16 +28,14 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
-      {
-        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)$/,
-        use: ['file-loader'],
-      },
+      { test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)$/, type: 'asset/resource' },
     ],
   },
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({})],
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
