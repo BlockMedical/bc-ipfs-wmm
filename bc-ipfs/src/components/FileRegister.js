@@ -229,7 +229,7 @@ class FileRegister extends Component {
               })
               .then(resp => {
                 console.log(resp);
-                ipfsmid = resp[0].hash;
+                ipfsmid = resp.cid.toString();
                 console.log('ipfs metadata hash=' + ipfsmid);
                 console.log('Submitted file=' + file_obj.name);
                 console.log('IPFS record=https://cloudflare-ipfs.com/ipfs/' + ipfsmid);
