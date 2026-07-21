@@ -1,7 +1,9 @@
 /* jshint esversion: 6 */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const ConfigWebpackPlugin = require('config-webpack');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const appConfig = require(`./config/${process.env.NODE_ENV === 'production' ? 'production' : 'default'}.json`);
 
 module.exports = {
   entry: ['./src/index.js'],
@@ -23,18 +25,16 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)$/,
-        use: ['file-loader'],
-      },
+      { test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf)$/, type: 'asset/resource' },
     ],
   },
   plugins: [
+    new NodePolyfillPlugin(),
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(appConfig) }),
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
       inject: 'body',
     }),
-    new ConfigWebpackPlugin(),
   ],
 };

@@ -157,7 +157,7 @@ class FileRegisterBridge extends Component {
           })
           .then(resp => {
             console.log(resp);
-            ipfsmid = resp[0].hash;
+            ipfsmid = resp.cid.toString();
             console.log('ipfs metadata hash=' + ipfsmid);
             console.log('IPFS record=https://cloudflare-ipfs.com/ipfs/' + ipfsmid);
             console.log(
