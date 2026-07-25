@@ -1,0 +1,51 @@
+# Dependabot configuration for bc-ipfs-wmm.
+#
+# Goal: keep security coverage exactly as it is, but stop it arriving as one
+# pull request (and one email) per advisory.
+#
+# Before this file, the repo ran on defaults: Dependabot security updates were
+# enabled with no config, and the default is one PR per vulnerable dependency.
+# A batch of advisories therefore landed as a burst of near-identical PRs — on
+# 2026-07-25, #34 then #35 and #36, each triggering its own notification, and
+# each merge triggering a re-scan that produced the next one.
+#
+# Two things are set below:
+#
+#   groups.security-updates
+#     Collapses all npm security updates into a single grouped PR instead of one
+#     per package. Dependencies that do not match a group are still opened
+#     individually, so nothing is silently dropped.
+#
+#   open-pull-requests-limit: 0
+#     Disables *version* updates. Adding any dependabot.yml would otherwise turn
+#     them on for the first time, which would flood the repo with PRs for merely
+#     outdated packages. Security update PRs are explicitly not subject to this
+#     limit, so vulnerability coverage is unaffected.
+#
+# Net effect: same alerts, same fixes, far fewer PRs. To take up routine version
+# updates later, raise the limit and add a second group with
+# `applies-to: version-updates`.
+
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/bc-ipfs"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Etc/UTC"
+
+    # Version updates off; security updates are exempt from this limit.
+    open-pull-requests-limit: 0
+
+    groups:
+      security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+    labels:
+      - "dependencies"
+      - "security"
