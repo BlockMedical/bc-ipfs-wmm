@@ -25,4 +25,11 @@ jobs:
           cache-dependency-path: bc-ipfs/package-lock.json
       - run: npm ci
       - run: npm run build
-      - run: npm audit --omit=dev --audit-level=high
+      # Production-dependency audit gate. Fails on high or above.
+      #
+      # audit-ci replaces `npm audit --omit=dev --audit-level=high` because npm
+      # audit cannot acknowledge an individual advisory, so one unfixable
+      # transitive finding pins the gate red and everyone learns to ignore it.
+      # Exceptions live in bc-ipfs/audit-ci.jsonc, each with a reason and a
+      # review date, and audit-ci still prints them on every run.
+      - run: npx --yes audit-ci@^7 --config ./audit-ci.jsonc
