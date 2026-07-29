@@ -152,7 +152,7 @@ class FileRegisterBridge extends Component {
         console.log('generated JSON for manual registration ' + ipfsmeta_norm);
         this.setState({ ['ipfs_gen_metatext']: ipfsmeta_norm });
         lib_ipfs
-          .add(Buffer.from(ipfsmeta_norm), {
+          .add(new TextEncoder().encode(ipfsmeta_norm), {
             progress: prog => console.log('IPFS Metadata uploaded bytes:' + prog),
           })
           .then(resp => {

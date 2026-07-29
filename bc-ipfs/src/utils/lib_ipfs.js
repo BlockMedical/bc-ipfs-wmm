@@ -5,7 +5,7 @@
 // const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
 // run with local daemon
-import { create } from 'ipfs-http-client';
+import { create } from 'kubo-rpc-client';
 
 const lib_ipfs = create({
   host: CONFIG.ipfs.api.host,

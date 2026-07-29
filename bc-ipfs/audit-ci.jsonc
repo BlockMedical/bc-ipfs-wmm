@@ -1,11 +1,8 @@
 {
   // Dependency audit gate for CI. Run by .github/workflows/security.yml.
   //
-  // audit-ci is used instead of a bare `npm audit --audit-level=high` because
-  // npm audit cannot acknowledge an individual advisory: one unfixable
-  // transitive finding turns the whole gate red and it stays red, which trains
-  // everyone to ignore it. audit-ci keeps the gate meaningful for everything
-  // else while each exception stays visible and documented here.
+  // audit-ci keeps the threshold and any future narrowly reviewed exceptions
+  // in source control instead of hiding policy in a workflow command.
   //
   // Rules for this file:
   //   - every allowlist entry needs a reason and a review date
@@ -14,29 +11,5 @@
 
   "high": true,
   "skip-dev": true,
-  "allowlist": [
-    // GHSA-mh99-v99m-4gvg — brace-expansion DoS via unbounded expansion (high).
-    //
-    // Reached only transitively:
-    //   ipfs-http-client 60.0.1 -> ipfs-utils -> it-glob 1.0.2 -> minimatch 3.1.5
-    //   -> brace-expansion 1.1.16
-    //
-    // No compatible fix exists as of 2026-07-25:
-    //   - npm audit fix --force proposes ipfs-http-client 34.0.0, a downgrade
-    //     across 26 major versions
-    //   - overriding brace-expansion to the patched 5.0.8 installs but breaks at
-    //     runtime: 5.x exports { expand }, minimatch 3.x calls the module as a
-    //     function ("expand is not a function")
-    //   - it-glob pins minimatch ^3.0.4 and minimatch is only patched at 10.2.5,
-    //     which is ESM-only with a different API
-    //
-    // Not in the shipped bundle: webpack stats for the production build show 151
-    // modules from ipfs-http-client and 9 from ipfs-utils, but 0 from it-glob,
-    // minimatch and brace-expansion. The glob path is Node-only and is dropped by
-    // the browser-field mapping, so the vulnerable code never reaches the browser.
-    //
-    // Durable fix: migrate off ipfs-http-client 60.x (e.g. to kubo-rpc-client).
-    // Review by: 2026-10-01
-    "GHSA-mh99-v99m-4gvg"
-  ]
+  "allowlist": []
 }

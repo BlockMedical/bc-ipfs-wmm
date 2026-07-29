@@ -12,12 +12,11 @@ in the sense to integrate with IPFS.
   the shipped browser bundle.
 - Dependabot security updates are grouped into one PR. Routine version-update PRs remain disabled so
   security notifications stay actionable.
-- `GHSA-mh99-v99m-4gvg` in the deprecated `ipfs-http-client` glob path is temporarily allowlisted in
-  `bc-ipfs/audit-ci.jsonc`. The path is not present in the browser bundle, no API-compatible patched
-  release exists, and the exception must be reviewed by 2026-10-01.
-- Next action: migrate from deprecated `ipfs-http-client` 60.x to a maintained Kubo/Helia client,
-  then remove the `brace-expansion` exception. No irreversible release or deployment action is part
-  of this dependency update.
+- Deprecated `ipfs-http-client` 60.x was replaced with maintained `kubo-rpc-client` 7.x. The app's
+  narrow `create`/`add`/`pin.add` usage is preserved, legacy browser `Buffer` calls now use native
+  typed arrays, and the `brace-expansion` exception was removed.
+- Next action: exercise file upload and pinning against a non-production Kubo daemon before any
+  release. No irreversible release or deployment action is part of this dependency update.
 
 If you are using Docker: *Require docker engine 1.13+ or docker-ce 17.0+*
 If you are running locally on your laptop: Require *nodejs 8.14.0+* and *npm 6.4.0+*
