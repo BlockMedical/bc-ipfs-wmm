@@ -4,6 +4,21 @@ The purpose for this started to simply provide a module to integrate with blockc
 related applications. Block chain is not limited to Ethereum, but also refer to others if applicable
 in the sense to integrate with IPFS.
 
+## Security maintenance status (2026-07-29)
+
+- CI installs and builds with Node.js 24, then enforces a high-severity production dependency gate.
+- The broad `node-polyfill-webpack-plugin` dependency was removed after a production build proved it
+  unnecessary. This removes the development-only `elliptic` tree; none of its modules were present in
+  the shipped browser bundle.
+- Dependabot security updates are grouped into one PR. Routine version-update PRs remain disabled so
+  security notifications stay actionable.
+- `GHSA-mh99-v99m-4gvg` in the deprecated `ipfs-http-client` glob path is temporarily allowlisted in
+  `bc-ipfs/audit-ci.jsonc`. The path is not present in the browser bundle, no API-compatible patched
+  release exists, and the exception must be reviewed by 2026-10-01.
+- Next action: migrate from deprecated `ipfs-http-client` 60.x to a maintained Kubo/Helia client,
+  then remove the `brace-expansion` exception. No irreversible release or deployment action is part
+  of this dependency update.
+
 If you are using Docker: *Require docker engine 1.13+ or docker-ce 17.0+*
 If you are running locally on your laptop: Require *nodejs 8.14.0+* and *npm 6.4.0+*
 ```
