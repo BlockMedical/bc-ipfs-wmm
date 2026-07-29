@@ -1,0 +1,15 @@
+{
+  // Dependency audit gate for CI. Run by .github/workflows/security.yml.
+  //
+  // audit-ci keeps the threshold and any future narrowly reviewed exceptions
+  // in source control instead of hiding policy in a workflow command.
+  //
+  // Rules for this file:
+  //   - every allowlist entry needs a reason and a review date
+  //   - an entry is a deferral, not a dismissal; re-check it on the review date
+  //   - if a fix ships, remove the entry rather than bumping the date
+
+  "high": true,
+  "skip-dev": true,
+  "allowlist": []
+}

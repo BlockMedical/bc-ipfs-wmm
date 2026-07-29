@@ -2,7 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const appConfig = require(`./config/${process.env.NODE_ENV === 'production' ? 'production' : 'default'}.json`);
 
 module.exports = {
@@ -29,7 +28,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new NodePolyfillPlugin(),
     new webpack.DefinePlugin({ CONFIG: JSON.stringify(appConfig) }),
     new HtmlWebPackPlugin({
       template: './src/index.html',

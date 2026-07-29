@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const appConfig = require('./config/production.json');
 
 module.exports = {
@@ -35,7 +34,6 @@ module.exports = {
     minimizer: ['...', new CssMinimizerPlugin()],
   },
   plugins: [
-    new NodePolyfillPlugin(),
     new webpack.DefinePlugin({ CONFIG: JSON.stringify(appConfig) }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

@@ -88,7 +88,7 @@ class FileRegister extends Component {
   saveToIpfs(reader) {
     let ipfsId;
     let fsize;
-    const buffer = Buffer.from(reader.result);
+    const buffer = new Uint8Array(reader.result);
 
     // disable register button until real file uploaded.
     this.setState({ ['btn_register_disabled']: true, ['is_loading']: true });
@@ -100,8 +100,8 @@ class FileRegister extends Component {
       })
       .then(response => {
         console.log(response);
-        ipfsId = response[0].hash;
-        fsize = response[0].size;
+        ipfsId = response.cid.toString();
+        fsize = Number(response.size);
         console.log('ipfs hash=' + ipfsId);
         console.log('ipfs fsize=' + fsize);
         this.setState({ ['btn_register_disabled']: false, ['is_loading']: false, ['file_ipfs_hash']: ipfsId });
@@ -224,7 +224,7 @@ class FileRegister extends Component {
             let ipfsmeta_norm = JSON.stringify(ipfsmeta_json);
             console.log('File JSON metadata=' + ipfsmeta_norm);
             lib_ipfs
-              .add(Buffer.from(ipfsmeta_norm), {
+              .add(new TextEncoder().encode(ipfsmeta_norm), {
                 progress: prog => console.log('IPFS Metadata uploaded bytes:' + prog),
               })
               .then(resp => {
