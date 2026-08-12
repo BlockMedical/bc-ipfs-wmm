@@ -18,13 +18,12 @@ if [ -e "$repo/config" ]; then
   echo "Found IPFS fs-repo at $repo"
 else
   ipfs init
-  ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
+  # SECURITY FIX (2026-06-29 audit): see bin/launch.sh for full rationale —
+  # the unauthenticated IPFS API was bound to 0.0.0.0 with wildcard CORS +
+  # credentials, giving unauthenticated full read/write/admin node control
+  # to anyone who could reach the host. Bound to loopback only; no CORS set.
+  ipfs config Addresses.API /ip4/127.0.0.1/tcp/5001
   ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
-  # See https://github.com/ipfs/js-ipfs-api#cors for more refining policies on
-  # acceptable URLs (CORS = Cross Origin Resource Sharing)
-  # The following policy creates SECURITY BREACH!!!!!!!!!!
-  ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"*\"]"
-  ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
 fi
 
 # if the first argument is daemon
