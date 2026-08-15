@@ -1,3 +1,10 @@
+# HISTORICAL EVIDENCE ONLY — NOT CURRENT STATE
+
+Preserved from an untracked July 20, 2026 session artifact during the
+August 15, 2026 checkout recovery. The merge described below completed through
+PR #33, and later dependency work completed through PRs #37 and #39. Do not run
+these instructions or use the superseded clone path near the end of this file.
+
 # Merge Runbook — Land the Dependabot fix on `master`
 
 Run these in your authenticated terminal (this step needs your GitHub credentials, so it can't be

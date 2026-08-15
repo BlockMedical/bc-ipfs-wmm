@@ -1,3 +1,10 @@
+# HISTORICAL EVIDENCE ONLY — NOT CURRENT STATE
+
+Preserved from an untracked July 20, 2026 session artifact during the
+August 15, 2026 checkout recovery. The pending merge described below completed
+through PR #33, and later dependency work completed through PRs #37 and #39.
+Use `CONTINUITY.md` on `master` for current state.
+
 # Security Remediation — Dependabot Alerts (July 2026)
 
 **Repo:** BlockMedical/bc-ipfs-wmm
