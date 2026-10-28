@@ -2,8 +2,16 @@
 
 Last reconciled: August 15, 2026, on the home Mac
 
-## Current state
+## Current security maintenance
 
+- PR #43 proposes updating the development dependency override for `fast-uri` to 3.1.9, covering the two high-severity alerts and newer published fixes. It remains open and unmerged.
+- On October 28, 2026, `npm ci --ignore-scripts` and the production webpack build passed in an isolated test copy using Node 24.22.1 and npm 11.19.0. The build emitted bundle-size warnings.
+- The production audit gate fails on GHSA-mrhx-c7xc-m3w5: Web3's `web3-validator` and `abitype` depend on Zod 3.25.76; the advisory's fix is in Zod 4.6.6. No compatible patched Zod 3 release was identified. Do not suppress the finding or force an unsupported major version without compatibility testing. Resolve this blocker and rerun the gate before merging.
+- GitHub withdrew the `braces` advisory GHSA-vfj7-8cjw-p6xm; alert #274 was dismissed as inaccurate with that reason recorded. Reassess if reinstated.
+- The separate `launch-editor` development alert #276 has a 2.14.2 fix; Dependabot was creating an update at review time.
+- Before any release, exercise file upload and pinning against a non-production Kubo daemon.
+
+## Current state
 - Canonical repository: `BlockMedical/bc-ipfs-wmm`
 - Canonical branch: `master`
 - GitHub is the cross-Mac source of truth. The active local checkout is
