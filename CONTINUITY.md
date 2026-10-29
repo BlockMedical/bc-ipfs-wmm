@@ -4,9 +4,9 @@ Last reconciled: August 15, 2026, on the home Mac
 
 ## Current security maintenance
 
-- PR #43 proposes updating the development dependency override for `fast-uri` to 3.1.9, covering the two high-severity alerts and newer published fixes. It remains open and unmerged.
+- PR #43 proposes updating the development dependency override for `fast-uri` to 3.1.9, covering the two high-severity alerts and newer published fixes. The audit gate on the branch is green once the Zod entry below is in place.
 - On October 28, 2026, `npm ci --ignore-scripts` and the production webpack build passed in an isolated test copy using Node 24.22.1 and npm 11.19.0. The build emitted bundle-size warnings.
-- The production audit gate fails on GHSA-mrhx-c7xc-m3w5: Web3's `web3-validator` and `abitype` depend on Zod 3.25.76; the advisory's fix is in Zod 4.6.6. No compatible patched Zod 3 release was identified. Do not suppress the finding or force an unsupported major version without compatibility testing. Resolve this blocker and rerun the gate before merging.
+- GHSA-mrhx-c7xc-m3w5 (Zod < 4.6.6 memory exhaustion) reaches the bundle only through web3: `web3-validator` 2.0.6, the latest release, requires Zod ^3, and `abitype` lists Zod only as an optional peer. No patched Zod 3 exists, and a Zod 4 override would break `web3-validator`, which uses the Zod 3 `refine()` message function and issue shapes. On October 28, 2026 the advisory was allowlisted in `bc-ipfs/audit-ci.jsonc` with an expiry of January 31, 2027, because the impact is limited to a hostile RPC provider crashing the user's own browser tab. Remove the entry once web3 ships with Zod 4.6.6 or later.
 - GitHub withdrew the `braces` advisory GHSA-vfj7-8cjw-p6xm; alert #274 was dismissed as inaccurate with that reason recorded. Reassess if reinstated.
 - The separate `launch-editor` development alert #276 has a 2.14.2 fix; Dependabot was creating an update at review time.
 - Before any release, exercise file upload and pinning against a non-production Kubo daemon.

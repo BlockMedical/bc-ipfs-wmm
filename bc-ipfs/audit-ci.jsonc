@@ -11,5 +11,22 @@
 
   "high": true,
   "skip-dev": true,
-  "allowlist": []
+  "allowlist": [
+    // GHSA-mrhx-c7xc-m3w5 (CVE-2023-54404, high): Zod < 4.6.6 can exhaust
+    // memory while collecting issues for a large failing array.
+    // Reason: reached only through web3 4.x (web3-validator 2.0.6 requires
+    // zod ^3; abitype lists zod as an optional peer we never import). No
+    // patched Zod 3 exists, and forcing Zod 4 breaks web3-validator's
+    // refine()/issue handling. This is a browser bundle, so the worst case is
+    // a hostile RPC provider crashing the user's own tab; no server parses
+    // attacker input with Zod.
+    // Review: 2027-01-31, or sooner if web3-validator ships with Zod >= 4.6.6.
+    {
+      "GHSA-mrhx-c7xc-m3w5": {
+        "active": true,
+        "notes": "web3-validator 2.0.6 pins zod ^3; no patched zod 3. Browser-only DoS. Remove when web3 moves to zod >= 4.6.6.",
+        "expiry": "2027-01-31"
+      }
+    }
+  ]
 }
